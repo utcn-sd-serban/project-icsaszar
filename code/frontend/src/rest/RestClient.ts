@@ -1,0 +1,146 @@
+interface OkResponse {
+    status: 'succeeded'
+    data: Response
+}
+
+interface ErrorResponse {
+    status: 'error'
+    data: Response
+}
+
+interface Failed {
+    status: 'failed'
+}
+
+export type ResponseData = OkResponse | ErrorResponse | Failed
+
+function onSuccess(response: Response): ResponseData {
+    if (response.status === 200) {
+        return {
+            data: response,
+            status: 'succeeded'
+        };
+    } else {
+        return {
+            data: response,
+            status: 'error'
+        }
+    }
+}
+
+function onFailure(err: any): ResponseData {
+    console.log(err);
+    return {
+        status: 'failed'
+    }
+}
+
+interface HttpRequest {
+    info: RequestInfo;
+    init: RequestInit;
+}
+
+export default class RestClient {
+
+    private static client?: RestClient = undefined;
+
+    static initialize(username: string, password: string) {
+        if (this.client !== undefined) {
+            delete this.client;
+            this.client = undefined;
+        }
+
+        this.client = new RestClient(username, password)
+    }
+
+    private readonly username: string;
+    private readonly password: string;
+
+    static readonly BASE_URL: string = "http://localhost:8080/";
+
+    private static createRequest(path: String, method: 'GET' | 'POST' | 'PUT' | 'DELETE'): HttpRequest {
+        if (this.client === undefined) throw Error("RestClient not initialized!");
+        return {
+            info: RestClient.BASE_URL + path,
+            init: {
+                credentials: 'include',
+                method: method,
+                headers: {
+                    'Content-Type': "application/json"
+                }
+            }
+        }
+    }
+
+    private static createLoginRequest(path: String): HttpRequest {
+        if (this.client === undefined) throw Error("RestClient not initialized!");
+        let body = new FormData();
+        body.append('username', this.client.username);
+        body.append('password', this.client.password);
+        return {
+            info: RestClient.BASE_URL + path,
+            init: {
+                method: 'POST',
+                body: body
+            }
+        }
+    }
+
+    private static createGetRequest(path: string) {
+        return this.createRequest(path, 'GET')
+    }
+
+    private static createPostRequest<T>(path: string, body: T) {
+        let req = this.createRequest(path, 'POST');
+        return {
+            ...req,
+            init: {
+                ...req.init,
+                body: (typeof body === 'string') ? body : JSON.stringify(body)
+            }
+        }
+    }
+
+    private static createDeleteRequest(path: string) {
+        return this.createRequest(path, "DELETE")
+    }
+
+    private static createPutRequest<T>(path: string, body: T) {
+        let req = this.createRequest(path, 'PUT');
+        return {
+            ...req,
+            init: {
+                ...req.init,
+                body: (typeof body === 'string') ? body : JSON.stringify(body)
+            }
+        }
+    }
+
+    private constructor(username: string, password: string) {
+        this.username = username;
+        this.password = password;
+    }
+
+    private static async makeAsyncRequest(info: RequestInfo, init: RequestInit) {
+        try {
+            const response = await fetch(info, init);
+            return onSuccess(response);
+        } catch (err) {
+            return onFailure(err);
+        }
+    }
+
+    static async login(): Promise<ResponseData> {
+        if (this.client === undefined) throw Error("RestClient not initialized!");
+        let {info, init} = this.createLoginRequest("login");
+        return RestClient.makeAsyncRequest(info, init);
+    }
+
+    static async fetchDetails(): Promise<ResponseData> {
+        if (this.client === undefined) throw Error("RestClient not initialized!");
+        let {info, init} = this.createGetRequest("account");
+        return RestClient.makeAsyncRequest(info, init);
+    }
+}
+
+
