@@ -80,6 +80,7 @@ export default class RestClient {
         return {
             info: RestClient.BASE_URL + path,
             init: {
+                credentials: 'include',
                 method: 'POST',
                 body: body
             }

@@ -23,6 +23,7 @@ import java.io.IOException
 import javax.servlet.ServletException
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.util.StringUtils
 
 
@@ -46,13 +47,16 @@ class SecurityConfiguration(
                 ?.antMatchers("/admin/**")?.hasRole("ADMIN")
                 ?.antMatchers("/teacher/**")?.hasRole("TEACHER")
                 ?.antMatchers("/student/**")?.hasRole("STUDENT")
-                ?.antMatchers("/details/**")?.hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                ?.antMatchers("/account/**")?.hasAnyRole("ADMIN", "TEACHER", "STUDENT")
                 ?.anyRequest()?.authenticated()?.and()
             ?.formLogin()
                 ?.successHandler(successHandler)
                 ?.failureHandler(failureHandler)
                 ?.permitAll()?.and()
-            ?.logout()?.and()
+            ?.logout()
+                ?.deleteCookies("JSESSIONID")
+                ?.permitAll()?.and()
+            ?.sessionManagement()?.and()
             ?.cors()?.and()
     }
 

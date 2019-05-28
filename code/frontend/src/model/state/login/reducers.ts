@@ -3,7 +3,7 @@ import {CHANGE_LOGIN_FIELD, CLEAR_LOGIN_FIELDS, LoginActions, LoginState, SET_FA
 const initialState: LoginState = {
     passwordState: "",
     usernameState: "",
-    failed: false,
+    failed: false   ,
     errorMsg: ""
 };
 
