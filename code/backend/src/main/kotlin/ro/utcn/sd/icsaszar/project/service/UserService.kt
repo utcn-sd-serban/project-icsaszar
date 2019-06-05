@@ -3,7 +3,7 @@ package ro.utcn.sd.icsaszar.project.service
 import org.springframework.stereotype.Service
 import ro.utcn.sd.icsaszar.project.exception.UserNotFoundException
 import ro.utcn.sd.icsaszar.project.model.user.User
-import ro.utcn.sd.icsaszar.project.persistence.UserRepository
+import ro.utcn.sd.icsaszar.project.persistence.user.UserRepository
 
 @Service
 class UserService(

@@ -2,17 +2,33 @@ package ro.utcn.sd.icsaszar.project.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ro.utcn.sd.icsaszar.project.model.activity.ActivityEvent
+import ro.utcn.sd.icsaszar.project.model.activity.ParticipationResult
+import ro.utcn.sd.icsaszar.project.model.participation.Participation
 import ro.utcn.sd.icsaszar.project.model.user.Student
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
-import ro.utcn.sd.icsaszar.project.persistence.StudentGroupRepository
-import ro.utcn.sd.icsaszar.project.persistence.StudentRepository
+import ro.utcn.sd.icsaszar.project.model.user.Teacher
+import ro.utcn.sd.icsaszar.project.persistence.participation.ParticipationRepository
+import ro.utcn.sd.icsaszar.project.persistence.user.StudentGroupRepository
+import ro.utcn.sd.icsaszar.project.persistence.user.StudentRepository
 
 @Service
 @Transactional
 class StudentService(
         private val studentRepository: StudentRepository,
-        private val groupRepository: StudentGroupRepository
+        private val groupRepository: StudentGroupRepository,
+        private val participationRepository: ParticipationRepository
 ){
+
+    fun addParticipation(
+            activityEvent: ActivityEvent,
+            student: Student,
+            preparingTeacher: Teacher,
+            result: ParticipationResult
+    ): Participation{
+        val participation = Participation(activityEvent, student, preparingTeacher, result)
+        return participationRepository.save(participation)
+    }
 
     fun findStudentsByGroupName(groupName: String): List<Student> =
         studentRepository.findByGroup_Name(groupName)
@@ -21,9 +37,7 @@ class StudentService(
 
     }
 
-    fun createStudent(username: String,  password: String, firstName: String, lastName: String, groupName: String): Student{
-        val group = groupRepository.findStudentGroupByName(groupName) ?: throw Exception()
-        val newStudent = Student(username, firstName, lastName, password, group)
-        return studentRepository.save(newStudent)
+    fun findAllStudentGroups(): List<StudentGroup>{
+        return groupRepository.findAll().toList()
     }
 }

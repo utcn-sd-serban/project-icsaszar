@@ -8,9 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.exception.UserNotFoundException
-import ro.utcn.sd.icsaszar.project.model.user.UserRole
-import ro.utcn.sd.icsaszar.project.persistence.UserRepository
-
 
 
 @Transactional
