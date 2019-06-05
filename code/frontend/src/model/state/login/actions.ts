@@ -3,7 +3,9 @@ import {
     ChangeLoginFieldAction,
     CLEAR_LOGIN_FIELDS,
     ClearLoginFieldsAction,
-    LoginField, SET_FAILED_LOGIN, SetFailedLoginAction
+    LoginField,
+    SET_FAILED_LOGIN,
+    SetFailedLoginAction
 } from "./types";
 
 export function doChangeLoginField(field: LoginField, newValue: string): ChangeLoginFieldAction {
