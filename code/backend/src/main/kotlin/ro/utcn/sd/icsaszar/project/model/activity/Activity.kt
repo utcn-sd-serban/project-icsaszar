@@ -1,5 +1,7 @@
-package ro.utcn.sd.icsaszar.project.model
+package ro.utcn.sd.icsaszar.project.model.activity
 
+import ro.utcn.sd.icsaszar.project.dto.ConvertibleToDTO
+import ro.utcn.sd.icsaszar.project.dto.activity.ActivityDTO
 import javax.persistence.*
 
 @Entity
@@ -54,14 +56,17 @@ class Activity(
         @JoinColumn(name = "category_id", nullable = false)
         val category: Category,
 
-        @OneToMany
-        @JoinColumn(name = "activity_id", nullable = false)
-        val events: Set<ActivityEvent>,
+        @OneToMany(
+                mappedBy = "activity",
+                orphanRemoval = true,
+                cascade = [CascadeType.MERGE, CascadeType.REMOVE]
+        )
+        val events: MutableSet<ActivityEvent>,
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0
-) {
+) : ConvertibleToDTO<ActivityDTO> {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Activity) return false
@@ -71,5 +76,9 @@ class Activity(
 
     override fun hashCode(): Int {
         return 31
+    }
+
+    override fun toDTO(): ActivityDTO {
+        return ActivityDTO.fromActivity(this)
     }
 }

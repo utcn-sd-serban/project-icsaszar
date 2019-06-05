@@ -2,8 +2,8 @@ package ro.utcn.sd.icsaszar.project.model.user
 
 import org.hibernate.annotations.TypeDef
 import ro.utcn.sd.icsaszar.project.dto.ConvertibleToDTO
-import ro.utcn.sd.icsaszar.project.dto.StudentDTO
-import ro.utcn.sd.icsaszar.project.dto.UserDetailsDTO
+import ro.utcn.sd.icsaszar.project.dto.user.StudentDTO
+import ro.utcn.sd.icsaszar.project.dto.user.TeacherDTO
 import javax.persistence.*
 
 enum class UserRole(val role: String) {
@@ -14,10 +14,14 @@ enum class UserRole(val role: String) {
 
 
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = [UniqueConstraint(columnNames = ["username"])]
+)
 @TypeDef(
         name = "pgsql_role_enum",
-        typeClass = PostgreSQLRoleEnumType::class)
+        typeClass = PostgreSQLRoleEnumType::class
+)
 @Inheritance(strategy = InheritanceType.JOINED)
 // Using a sealed class of exhaustiveness checks when checking subclasses of User
 // Sadly the subclasses must be in the same file
@@ -55,7 +59,7 @@ class Teacher(
         lastName: String,
         password: String,
         id: Long = 0
-) : User(username, firstName, lastName, password, UserRole.TEACHER, id) {
+) : User(username, firstName, lastName, password, UserRole.TEACHER, id), ConvertibleToDTO<TeacherDTO> {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Teacher) return false
@@ -66,6 +70,10 @@ class Teacher(
     override fun hashCode(): Int {
         return 31
     }
+
+    override fun toDTO(): TeacherDTO {
+        return TeacherDTO.fromTeacher(this)
+    }
 }
 
 @Entity
@@ -75,9 +83,10 @@ class Student(
         lastName: String,
         password: String,
 
-        @ManyToOne
+        @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REMOVE])
         @JoinColumn(name = "group_id", nullable = false)
         val group: StudentGroup,
+
         id: Long = 0
 ) : User(username, firstName, lastName, password, UserRole.STUDENT, id), ConvertibleToDTO<StudentDTO> {
 
@@ -104,7 +113,7 @@ class Admin(
         lastName: String,
         password: String,
         id: Long = 0
-): User(username, firstName, lastName, password, UserRole.ADMIN, id){
+) : User(username, firstName, lastName, password, UserRole.ADMIN, id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Admin) return false

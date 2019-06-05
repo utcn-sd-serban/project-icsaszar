@@ -9,7 +9,7 @@ data class StudentGroup(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0
-) {
+)  {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is StudentGroup) return false
