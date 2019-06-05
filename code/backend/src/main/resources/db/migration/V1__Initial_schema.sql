@@ -3,6 +3,7 @@ create schema if not exists project;
 set search_path to project;
 
 create type user_role as enum ('STUDENT', 'TEACHER', 'ADMIN');
+create type review_status as enum('PENDING', 'APPROVED', 'REJECTED');
 
 create table if not exists users
 (
@@ -122,15 +123,30 @@ create table if not exists activity_event
     location    varchar   not null
 );
 
+create table if not exists result
+(
+    id   bigserial primary key,
+    name varchar unique not null
+);
+
 create table if not exists participation
 (
     activity_event_id    bigint
         references activity_event (id)
             on update cascade
             on delete restrict,
+    student_id           bigint
+        references student (id)
+            on update cascade
+            on delete restrict,
     preparing_teacher_id bigint
         references teacher (id)
             on update cascade
             on delete restrict,
-    primary key (activity_event_id, preparing_teacher_id)
+    result_id            bigint
+        references result (id)
+            on update cascade
+            on delete restrict,
+    status review_status default 'PENDING',
+    primary key (activity_event_id, student_id)
 );

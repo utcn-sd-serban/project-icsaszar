@@ -2,6 +2,7 @@ package ro.utcn.sd.icsaszar.project.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -48,6 +49,7 @@ class SecurityConfiguration(
                 ?.antMatchers("/teacher/**")?.hasRole("TEACHER")
                 ?.antMatchers("/student/**")?.hasRole("STUDENT")
                 ?.antMatchers("/account/**")?.hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                ?.antMatchers("/data/**")?.hasAnyRole("ADMIN", "TEACHER", "STUDENT")
                 ?.anyRequest()?.authenticated()?.and()
             ?.formLogin()
                 ?.successHandler(successHandler)
@@ -55,6 +57,10 @@ class SecurityConfiguration(
                 ?.permitAll()?.and()
             ?.logout()
                 ?.deleteCookies("JSESSIONID")
+                // prevent redirecting
+                ?.logoutSuccessHandler {
+                    _, response, _ ->
+                    response?.status = HttpServletResponse.SC_OK }
                 ?.permitAll()?.and()
             ?.sessionManagement()?.and()
             ?.cors()?.and()
