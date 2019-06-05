@@ -1,21 +1,28 @@
 import * as React from "react";
 
 interface Props {
-    username: string | undefined
+    username: string | undefined;
+    onLogout: () => void
 }
 
 export const Navbar: React.FC<Props> =
     (
-        {username}
+        {username, onLogout}
     ) => (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             {
                 username &&
-                <ul className="navbar-nav">
-                    <li>
-                        {username}
-                    </li>
-                </ul>
+                <div>
+                    <ul className="navbar-nav">
+                        <li>
+                            {username}
+                        </li>
+                        <button onClick={onLogout}>
+                            Logout
+                        </button>
+                    </ul>
+                </div>
+
             }
         </nav>
     );

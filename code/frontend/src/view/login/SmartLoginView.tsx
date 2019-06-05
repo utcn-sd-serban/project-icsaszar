@@ -5,7 +5,7 @@ import {Dispatch} from "redux";
 import {loginPresenter} from "../../presenter/login/LoginPresenter";
 import {connect} from "react-redux";
 import {LoginView} from "./LoginView";
-import {RouteComponentProps, } from "react-router";
+import {RouteComponentProps,} from "react-router";
 import * as H from 'history'
 
 interface Props extends RouteComponentProps<any>{

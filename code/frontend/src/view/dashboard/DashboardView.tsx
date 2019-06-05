@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserRole} from "../../model/objects/User";
+import {UserRole} from "../../model/objects/user/User";
 
 interface Props {
     username: string,
@@ -13,12 +13,14 @@ export const DashboardView: React.FC<Props> =
          username,
          firstName,
          lastName,
-         role
+         role,
+         children
      }) => (
-         
+
         <div>
             <h1>
                 {`Welcome ${firstName} ${lastName}`}
             </h1>
+            {children}
         </div>
     );
