@@ -7,6 +7,8 @@ import {studentGroupReducer} from "./student_group/reducers";
 import {activityDataReducer} from "./activity_data/reducers";
 import {addActivityReducer} from "./add_activity/reducers";
 import {addEventReducer} from "./add_event/reducers";
+import {addParticipationReducer} from "./add_participation/reducers";
+import {teacherReducer} from "./teachers/reducers";
 
 
 const rootReducer = combineReducers({
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
     studentGroupState: studentGroupReducer,
     activityDataState: activityDataReducer,
     addActivityState: addActivityReducer,
-    addEventState: addEventReducer
+    addEventState: addEventReducer,
+    addParticipationState: addParticipationReducer,
+    teacherState: teacherReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

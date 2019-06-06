@@ -2,6 +2,7 @@ import {Activity, Category, Organizer} from "../../objects/activity/Activity";
 import {Round} from "../../objects/activity/ActivityEvent";
 import {Action} from "redux";
 import {Omit} from "../../../App";
+import {ParticipationResult} from "../../objects/activity/Participation";
 
 export const REQUEST_ACTIVITY_DATA = "[ACTIVITY DATA] REQUEST DATA";
 export const RECEIVE_ACTIVITY_DATA = "[ACTIVITY DATA] RECEIVE DATA";
@@ -10,6 +11,7 @@ export interface ActivityDataState {
     organizers: Organizer[];
     categories: Category[];
     activities: Activity[];
+    results: ParticipationResult[];
     rounds: Round[];
     isFetching: boolean;
 }

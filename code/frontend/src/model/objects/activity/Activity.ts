@@ -30,5 +30,22 @@ export class Activity {
         readonly id: number = 0
     ) {
     }
+
+    static fromObject(
+        {
+            name,
+            organizer,
+            category,
+            events,
+            id
+        }: Activity ): Activity {
+        return new Activity(
+            name,
+            organizer,
+            category,
+            events,
+            id
+        )
+    }
 }
 

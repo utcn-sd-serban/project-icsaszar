@@ -18,21 +18,21 @@ export interface SetSelectedAddEventFieldAction extends Action{
     type: typeof SET_SELECTED_ADD_EVENT_FIELD
     payload: {
         field: AddEventSelectedField;
-        value: number
+        value: number;
     }
 }
 
 export interface SetNewEventLocationAction extends Action{
     type: typeof SET_NEW_EVENT_LOCATION
     payload: {
-        value: string
+        value: string;
     }
 }
 
 export interface SetNewEventDateAction extends Action{
     type: typeof SET_NEW_EVENT_DATE
     payload: {
-        value: Date
+        value: Date;
     }
 }
 

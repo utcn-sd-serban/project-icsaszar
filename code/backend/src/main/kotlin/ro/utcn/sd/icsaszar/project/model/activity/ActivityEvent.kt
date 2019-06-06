@@ -69,7 +69,7 @@ data class ParticipationResult(
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long
+        val id: Long = 0
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

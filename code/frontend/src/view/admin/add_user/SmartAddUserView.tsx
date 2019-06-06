@@ -8,7 +8,7 @@ import {Dispatch} from "redux";
 import {addUserPresenter} from "../../../presenter/admin/add_user/AddUserPresenter";
 import {StudentGroup} from "../../../model/objects/user/Student";
 import {Omit} from "../../../App";
-import {getStudentGroupById} from "../../../model/state/student_group/selectors";
+import {findStudentGroupById} from "../../../model/state/student_group/selectors";
 
 interface Props {
     username: string;
@@ -71,7 +71,7 @@ function mapStateToProps(state: AppState): Omit<Props,  "onChangeInput" | "onSub
         role: role,
         groups: state.studentGroupState.groups,
         selectedGroupId: state.addUserState.selectedGroupId,
-        selectedStudentGroup: getStudentGroupById(state, state.addUserState.selectedGroupId)!!
+        selectedStudentGroup: findStudentGroupById(state, state.addUserState.selectedGroupId)!!
     }
 }
 

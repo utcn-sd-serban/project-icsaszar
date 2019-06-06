@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Category, Organizer} from "../../../model/objects/activity/Activity";
 import {AddActivitySelectedField} from "../../../model/state/add_activity/types";
-import {USER_ROLES} from "../../../model/objects/user/User";
 
 
 interface Props {

@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.model.activity.*
 import ro.utcn.sd.icsaszar.project.model.user.*
 import ro.utcn.sd.icsaszar.project.persistence.activity.*
+import ro.utcn.sd.icsaszar.project.persistence.participation.ParticipationResultRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.AdminRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.StudentGroupRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.StudentRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.TeacherRepository
+import java.time.LocalDateTime
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -30,7 +32,8 @@ class AppSeed(
         private val activityEventRepository: ActivityEventRepository,
         private val roundRepository: RoundRepository,
         private val organizerRepository: OrganizerRepository,
-        private val categoryRepository: CategoryRepository
+        private val categoryRepository: CategoryRepository,
+        private val participationResultRepository: ParticipationResultRepository
 ) : CommandLineRunner {
 
     @Transactional
@@ -76,9 +79,33 @@ class AppSeed(
         categoryRepository.saveAll(categories)
         roundRepository.saveAll(rounds)
 
-        val activities = mutableListOf<Activity>(Activity("a1", organizers[0], categories[0], mutableSetOf<ActivityEvent>()))
+        val activities = mutableListOf<Activity>(
+                Activity("a1", organizers[0], categories[0], mutableSetOf<ActivityEvent>()),
+                Activity("a2", organizers[1], categories[0], mutableSetOf<ActivityEvent>())
+        )
+
+        val events = mutableListOf<ActivityEvent>(
+                ActivityEvent(rounds[0], LocalDateTime.now(), "loc1", activities[0]),
+                ActivityEvent(rounds[1], LocalDateTime.now(), "loc2", activities[0]),
+                ActivityEvent(rounds[0], LocalDateTime.now(), "loc3", activities[1])
+        )
+
 
         activityRepository.saveAll(activities)
+
+        events.forEach{
+            it.activity.events.add(it)
+        }
+
+        activityEventRepository.saveAll(events)
+
+        val results = listOf<ParticipationResult>(
+                ParticipationResult("1st place"),
+                ParticipationResult("2nd place"),
+                ParticipationResult("3rd place")
+        )
+
+        participationResultRepository.saveAll(results)
     }
 
     private fun clear(){
