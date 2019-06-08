@@ -11,6 +11,7 @@ import {addParticipationReducer} from "./add_participation/reducers";
 import {teacherReducer} from "./teacher_data/reducers";
 import {participationDataReducer} from "./participation_data/reducers";
 import {reviewResultsReducer} from "./review_results/reducers";
+import {reportReducer} from "./report/reducers";
 
 
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     addParticipationState: addParticipationReducer,
     teacherState: teacherReducer,
     participationDataState: participationDataReducer,
-    reviewResultsState: reviewResultsReducer
+    reviewResultsState: reviewResultsReducer,
+    reportState: reportReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

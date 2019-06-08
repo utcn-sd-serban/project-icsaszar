@@ -1,8 +1,7 @@
-package ro.utcn.sd.icsaszar.project.service
+package ro.utcn.sd.icsaszar.project.service.data
 
 import org.springframework.stereotype.Service
 import ro.utcn.sd.icsaszar.project.dto.activity.ActivityDataDTO
-import ro.utcn.sd.icsaszar.project.model.activity.ParticipationResult
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
 import ro.utcn.sd.icsaszar.project.model.user.Teacher
 import ro.utcn.sd.icsaszar.project.persistence.activity.ActivityRepository

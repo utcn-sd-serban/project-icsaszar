@@ -1,6 +1,10 @@
 import {ThunkDispatch} from "redux-thunk";
 import {AddActivitySelectedField} from "../../../model/state/add_activity/types";
-import {doSetActivityName, doSetSelectedAddActivityField, sendActivity} from "../../../model/state/add_activity/actions";
+import {
+    doSetActivityName,
+    doSetSelectedAddActivityField,
+    sendActivity
+} from "../../../model/state/add_activity/actions";
 import {AppState} from "../../../model/state/store";
 import {Action} from "redux";
 import {Category, Organizer} from "../../../model/objects/activity/Activity";

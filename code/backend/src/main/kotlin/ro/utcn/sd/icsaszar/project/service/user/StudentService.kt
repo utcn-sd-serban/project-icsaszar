@@ -1,14 +1,15 @@
-package ro.utcn.sd.icsaszar.project.service
+package ro.utcn.sd.icsaszar.project.service.user
 
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.exception.ActivityEventNotFoundException
+import ro.utcn.sd.icsaszar.project.exception.ParticipationAlreadyExistsException
 import ro.utcn.sd.icsaszar.project.exception.UserNotFoundException
-import ro.utcn.sd.icsaszar.project.model.activity.ActivityEvent
 import ro.utcn.sd.icsaszar.project.model.activity.ParticipationResult
 import ro.utcn.sd.icsaszar.project.model.participation.Participation
+import ro.utcn.sd.icsaszar.project.model.participation.ParticipationId
+import ro.utcn.sd.icsaszar.project.model.participation.ParticipationReviewStatus
 import ro.utcn.sd.icsaszar.project.model.user.Student
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
 import ro.utcn.sd.icsaszar.project.model.user.Teacher
@@ -31,6 +32,16 @@ class StudentService(
         private val userDetailsService: AppUserDetailsService
 ){
 
+    fun findAllParticipations():List<Participation>{
+        val currentUser = userDetailsService.loadCurrentUser() as Student
+        return participationRepository.findAllByStudent_Id(currentUser.id)
+    }
+
+    fun findParticipationsByStatus(status: ParticipationReviewStatus): List<Participation>{
+        val currentUser = userDetailsService.loadCurrentUser() as Student
+        return participationRepository.findAllByStudent_IdAndReviewStatus(currentUser.id, status)
+    }
+
     fun addParticipation(
             activityEventId: Long,
             preparingTeacherId: Long,
@@ -40,6 +51,10 @@ class StudentService(
 
         val activityEvent = activityEventRepository.findByIdOrNull(activityEventId) ?: throw ActivityEventNotFoundException.ofId(activityEventId)
         val preparingTeacher = teacherRepository.findByIdOrNull(preparingTeacherId) ?: throw UserNotFoundException.ofId(preparingTeacherId)
+
+        val participationId = ParticipationId(activityEvent, currentUser)
+        if(participationRepository.findByIdOrNull(participationId) != null)
+            throw ParticipationAlreadyExistsException.ofId(participationId)
 
         val participation = Participation(activityEvent, currentUser, preparingTeacher, result)
         return participationRepository.save(participation)

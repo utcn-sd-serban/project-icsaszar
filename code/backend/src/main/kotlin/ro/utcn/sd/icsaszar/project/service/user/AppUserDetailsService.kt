@@ -1,4 +1,4 @@
-package ro.utcn.sd.icsaszar.project.service
+package ro.utcn.sd.icsaszar.project.service.user
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.exception.UserNotFoundException
+import ro.utcn.sd.icsaszar.project.service.user.UserService
 
 
 @Transactional

@@ -14,8 +14,6 @@ import {AddParticipationSelectedField} from "../../../model/state/add_participat
 export const addParticipationPresenter = (dispatch: ThunkDispatch<AppState, undefined, Action>) => ({
     handleChangeSelectedField: (field: AddParticipationSelectedField, value: number) => {
         dispatch(doSetSelectedAddParticipationField(field, value));
-        dispatch(setFirstSelectedActivityEvent());
-
     },
     handleSubmit: (event: ActivityEvent, preparingTeacher: Teacher, result: ParticipationResult) => {
         dispatch(sendNewParticipation(event, preparingTeacher, result))

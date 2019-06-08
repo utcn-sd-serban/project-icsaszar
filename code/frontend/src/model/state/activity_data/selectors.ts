@@ -34,6 +34,6 @@ export function findActivityEventById(state: AppState, activityEventId: number, 
         events = state.activityDataState.activities
             .flatMap(a => a.events)
     }
-    if (events)
+    if (events !== undefined)
         return events.find(ae => ae.id === activityEventId)
 }

@@ -22,6 +22,7 @@ interface Props {
     selectedTeacherId: number;
     selectedResultId: number;
     selectedActivityId: number;
+    errorMsg: string | undefined;
 
     selectedEvent: ActivityEvent;
     selectedTeacher: Teacher;
@@ -56,14 +57,16 @@ type StateProps = Pick<Props,
     | "selectedActivityId"
     | "selectedEvent"
     | "selectedResult"
-    | "selectedTeacher">
+    | "selectedTeacher"
+    | "errorMsg">
 
 function mapStateToProps(state: AppState): StateProps {
     let {
         selectedEventId,
         selectedResultId,
         selectedTeacherId,
-        selectedActivityId
+        selectedActivityId,
+        alreadyExistsError
     } = state.addParticipationState;
     return {
         activities: state.activityDataState.activities,
@@ -74,6 +77,7 @@ function mapStateToProps(state: AppState): StateProps {
         selectedResultId: selectedResultId,
         selectedTeacherId: selectedTeacherId,
         selectedActivityId: selectedActivityId,
+        errorMsg: alreadyExistsError,
 
         teachers: state.teacherState.teachers,
         selectedEvent: findActivityEventById(state, selectedEventId, selectedActivityId)!!,

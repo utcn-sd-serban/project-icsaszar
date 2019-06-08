@@ -1,4 +1,4 @@
-package ro.utcn.sd.icsaszar.project.service
+package ro.utcn.sd.icsaszar.project.service.user
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

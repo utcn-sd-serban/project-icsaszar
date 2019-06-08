@@ -6,7 +6,8 @@ import {Round} from "../../../model/objects/activity/ActivityEvent";
 import {
     doSetNewEventDate,
     doSetNewEventLocation,
-    doSetSelectedAddEventField, sendEvent
+    doSetSelectedAddEventField,
+    sendEvent
 } from "../../../model/state/add_event/actions";
 import {AddEventSelectedField} from "../../../model/state/add_event/types";
 

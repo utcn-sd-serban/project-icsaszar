@@ -7,6 +7,7 @@ import {fetchActivityData} from "../activity_data/actions";
 import {fetchTeacherData} from "../teacher_data/actions";
 import BaseRestClient from "../../../rest/BaseRestClient";
 import {fetchParticipationData} from "../participation_data/actions";
+import {fetchTeacherReport} from "../report/actions";
 
 export function doSetCurrentUser(id: number,
                                  username: string,
@@ -63,9 +64,11 @@ export function loginUser(username: string, password: string): ThunkResult<Promi
                 switch (role) {
                     case "STUDENT":
                         await dispatch(fetchTeacherData());
+                        await dispatch(fetchParticipationData());
                         break;
                     case "TEACHER":
                         await dispatch(fetchParticipationData());
+                        await dispatch(fetchTeacherReport());
                         break;
                     case "ADMIN":
                         break;

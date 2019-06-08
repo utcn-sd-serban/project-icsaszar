@@ -1,4 +1,4 @@
-package ro.utcn.sd.icsaszar.project.controller
+package ro.utcn.sd.icsaszar.project.controller.user
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -8,7 +8,7 @@ import ro.utcn.sd.icsaszar.project.model.activity.Activity
 import ro.utcn.sd.icsaszar.project.model.user.Student
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
 import ro.utcn.sd.icsaszar.project.model.user.Teacher
-import ro.utcn.sd.icsaszar.project.service.AdminService
+import ro.utcn.sd.icsaszar.project.service.user.AdminService
 
 @RestController
 @RequestMapping("/admin")

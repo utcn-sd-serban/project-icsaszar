@@ -1,15 +1,19 @@
-package ro.utcn.sd.icsaszar.project.controller
+package ro.utcn.sd.icsaszar.project.controller.user
 
 import org.springframework.web.bind.annotation.*
 import ro.utcn.sd.icsaszar.project.dto.participation.ParticipationDTO
 import ro.utcn.sd.icsaszar.project.dto.participation.ParticipationStatusDTO
 import ro.utcn.sd.icsaszar.project.model.participation.ParticipationReviewStatus
-import ro.utcn.sd.icsaszar.project.service.TeacherService
+import ro.utcn.sd.icsaszar.project.model.report.TeacherReport
+import ro.utcn.sd.icsaszar.project.model.user.Teacher
+import ro.utcn.sd.icsaszar.project.service.report.ReportService
+import ro.utcn.sd.icsaszar.project.service.user.TeacherService
 
 @RestController
 @RequestMapping("/teacher")
 class TeacherController(
-        private val teacherService: TeacherService
+        private val teacherService: TeacherService,
+        private val reportService: ReportService
 ) {
 
     @GetMapping("/participations")
@@ -37,5 +41,10 @@ class TeacherController(
             @RequestBody statusDTO: ParticipationStatusDTO
     ): ParticipationDTO{
         return teacherService.reviewParticipation(eventId, studentId, statusDTO.status).toDTO()
+    }
+
+    @GetMapping("/report")
+    fun getReport(): TeacherReport{
+        return reportService.generateReport()
     }
 }

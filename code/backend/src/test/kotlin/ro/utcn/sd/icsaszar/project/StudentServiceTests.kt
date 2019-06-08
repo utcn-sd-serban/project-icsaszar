@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import ro.utcn.sd.icsaszar.project.service.StudentService
+import ro.utcn.sd.icsaszar.project.service.user.StudentService
 
 @SpringBootTest
 class StudentServiceTests {

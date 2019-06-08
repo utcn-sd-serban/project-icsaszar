@@ -33,4 +33,20 @@ export class ActivityEvent {
             id
         )
     }
+
+    static fromJSON(
+        {
+            id,
+            round,
+            location,
+            date
+        }: ActivityEvent
+    ): ActivityEvent {
+        return new ActivityEvent(
+            round,
+            new Date(date),
+            location,
+            id
+        )
+    }
 }

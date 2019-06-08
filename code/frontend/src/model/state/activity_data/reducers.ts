@@ -21,10 +21,7 @@ export function activityDataReducer(state: ActivityDataState = initialState, act
                     Activity.fromObject({
                         ...a,
                         events: a.events.map(e =>
-                                ActivityEvent.fromObject({
-                                    ...e,
-                                    date: new Date(e.date)
-                                })
+                                ActivityEvent.fromJSON(e)
                             )
                     })
                 ),

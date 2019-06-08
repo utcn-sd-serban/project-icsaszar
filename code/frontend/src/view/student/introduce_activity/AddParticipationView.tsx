@@ -15,6 +15,7 @@ interface Props {
     selectedTeacherId: number;
     selectedResultId: number;
     selectedActivityId: number;
+    errorMsg: string | undefined;
 
     onChangeSelectedField: (field: AddParticipationSelectedField, value: number) => void;
     onSubmit: () => void;
@@ -31,10 +32,17 @@ export const AddParticipationView: React.FC<Props> =
          onSubmit,
          selectedActivityId,
          onChangeSelectedField,
-         results
+         results,
+         errorMsg
      }) => (
         <div className="container">
             <h1>Introduce activity</h1>
+            {
+                errorMsg &&
+                <div className="alert alert-danger" role="alert">
+                    {errorMsg}
+                </div>
+            }
             <div className="input-group mb-3">
                 <div className="input-group-prepend">
                     <label className="input-group-text" htmlFor="inputGroupSelect01">Activity</label>

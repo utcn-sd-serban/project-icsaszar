@@ -18,4 +18,8 @@ export default class TeacherRestClient {
     static async fetchParticipationData(): Promise<ResponseData>{
         return  BaseRestClient.doGetRequest(`teacher/participations`);
     }
+
+    static async fetchReport(): Promise<ResponseData>{
+        return BaseRestClient.doGetRequest("teacher/report")
+    }
 }

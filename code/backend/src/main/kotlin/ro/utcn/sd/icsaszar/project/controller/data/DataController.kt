@@ -1,19 +1,12 @@
-package ro.utcn.sd.icsaszar.project.controller
+package ro.utcn.sd.icsaszar.project.controller.data
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ro.utcn.sd.icsaszar.project.dto.activity.ActivityDataDTO
 import ro.utcn.sd.icsaszar.project.dto.user.TeacherDTO
-import ro.utcn.sd.icsaszar.project.model.activity.Activity
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
-import ro.utcn.sd.icsaszar.project.persistence.activity.ActivityRepository
-import ro.utcn.sd.icsaszar.project.persistence.activity.CategoryRepository
-import ro.utcn.sd.icsaszar.project.persistence.activity.OrganizerRepository
-import ro.utcn.sd.icsaszar.project.persistence.activity.RoundRepository
-import ro.utcn.sd.icsaszar.project.service.AdminService
-import ro.utcn.sd.icsaszar.project.service.ReadOnlyDataService
-import ro.utcn.sd.icsaszar.project.service.StudentService
+import ro.utcn.sd.icsaszar.project.service.data.ReadOnlyDataService
 
 
 @RestController

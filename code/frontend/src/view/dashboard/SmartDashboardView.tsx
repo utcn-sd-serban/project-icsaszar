@@ -10,6 +10,8 @@ import SmartIntroduceActivityView from "../student/introduce_activity/SmartAddPa
 import SmartAddNewActivityView from "../admin/add_activity/SmartAddNewActivityView";
 import SmartAddEventView from "../admin/add_event/SmartAddEventView";
 import SmartReviewResultsView from "../teacher/review_results/SmartReviewResultsView";
+import SmartStudentReportView from "../student/view_report/SmartStudentReportView";
+import SmartTeacherReportView from "../teacher/view_report/SmartTeacherReportView";
 
 interface Props extends RouteComponentProps {
     username: string,
@@ -47,7 +49,7 @@ const SmartDashboardView: React.FC<Props> = ({
                     <Switch>
                         <Route exact={true} path={`${match.path}/introduce-activity`}
                                component={SmartIntroduceActivityView}/>
-                        {/*<Route exact={true} path={`${match.path}/view-report`} component={}/>*/}
+                        <Route exact={true} path={`${match.path}/view-report`} component={SmartStudentReportView}/>
                     </Switch>
                 </div>
             );
@@ -60,12 +62,13 @@ const SmartDashboardView: React.FC<Props> = ({
                                 <Link to={`${match.url}/review-results`}> Review results </Link>
                             </li>
                             <li>
-                                View report
+                                <Link to={`${match.url}/report`}> View report </Link>
                             </li>
                         </ul>
                     </DashboardView>
                     <Switch>
                         <Route exact={true} path={`${match.path}/review-results`} component={SmartReviewResultsView}/>
+                        <Route exact={true} path={`${match.path}/report`} component={SmartTeacherReportView}/>
                     </Switch>
                 </div>
             );
