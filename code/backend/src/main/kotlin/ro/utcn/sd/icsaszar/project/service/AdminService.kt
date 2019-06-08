@@ -4,6 +4,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.dto.activity.ActivityEventDTO
+import ro.utcn.sd.icsaszar.project.exception.ActivityNotFoundException
 import ro.utcn.sd.icsaszar.project.model.activity.Activity
 import ro.utcn.sd.icsaszar.project.model.activity.ActivityEvent
 import ro.utcn.sd.icsaszar.project.model.user.Admin
@@ -41,7 +42,7 @@ class AdminService(
         return adminRepository.save(admin)
     }
 
-    fun getStudentsByGroup(groupName: String): List<Student> {
+    fun findStudentsByGroup(groupName: String): List<Student> {
         return studentRepository.findByGroup_Name(groupName)
     }
 
@@ -64,7 +65,7 @@ class AdminService(
     }
 
     fun createNewActivityEvent(activityId: Long, activityEvent: ActivityEventDTO): ActivityEvent{
-        val activity = activityRepository.findByIdOrNull(activityId) ?: throw Exception()
+        val activity = activityRepository.findByIdOrNull(activityId) ?: throw ActivityNotFoundException.ofId(activityId)
         val newActivityEvent = ActivityEvent(
                 activityEvent.round,
                 activityEvent.date,

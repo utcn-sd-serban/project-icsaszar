@@ -8,8 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import ro.utcn.sd.icsaszar.project.model.activity.*
+import ro.utcn.sd.icsaszar.project.model.participation.Participation
+import ro.utcn.sd.icsaszar.project.model.participation.ParticipationId
 import ro.utcn.sd.icsaszar.project.model.user.*
 import ro.utcn.sd.icsaszar.project.persistence.activity.*
+import ro.utcn.sd.icsaszar.project.persistence.participation.ParticipationRepository
 import ro.utcn.sd.icsaszar.project.persistence.participation.ParticipationResultRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.AdminRepository
 import ro.utcn.sd.icsaszar.project.persistence.user.StudentGroupRepository
@@ -33,7 +36,8 @@ class AppSeed(
         private val roundRepository: RoundRepository,
         private val organizerRepository: OrganizerRepository,
         private val categoryRepository: CategoryRepository,
-        private val participationResultRepository: ParticipationResultRepository
+        private val participationResultRepository: ParticipationResultRepository,
+        private val participationRepository: ParticipationRepository
 ) : CommandLineRunner {
 
     @Transactional
@@ -41,6 +45,8 @@ class AppSeed(
         clear()
         println("Seeding app")
 
+        // I learned from the first assignment that using array indices to select an item
+        // is a bad idea and groups["g1"] is a lot clearer than groups[1]
         val groups: Map<String, StudentGroup> = mapOf(
                 "g1" to StudentGroup("g1"),
                 "g2" to StudentGroup("g2"),
@@ -52,28 +58,42 @@ class AppSeed(
             key to studentGroupRepository.save(value)
         }.toMap()
 
-        val users: Map<String, User> = mapOf(
-                "t1" to Teacher("t1", "ft1", "lt1", passwordEncoder.encode("pass1")),
-                "t2" to Teacher("t2", "ft2", "lt2", passwordEncoder.encode("pass2")),
-                "t3" to Teacher("t3", "ft3", "lt3", passwordEncoder.encode("pass3")),
-                "s1" to Student("s1", "fs1", "ls1", passwordEncoder.encode("pass4"), savedGroups["g1"]!!),
-                "s2" to Student("s2", "fs2", "ls2", passwordEncoder.encode("pass5"), savedGroups["g2"]!!),
-                "s3" to Student("s3", "fs3", "ls3", passwordEncoder.encode("pass6"), savedGroups["g3"]!!),
-                "a1" to Admin("a1", "fa1", "la1", passwordEncoder.encode("pass7"))
+        val students = mutableListOf<Student>(
+                Student("s1", "fs1", "ls1", passwordEncoder.encode("pass4"), savedGroups["g1"]!!),
+                Student("s2", "fs2", "ls2", passwordEncoder.encode("pass5"), savedGroups["g2"]!!),
+                Student("s3", "fs3", "ls3", passwordEncoder.encode("pass6"), savedGroups["g3"]!!)
         )
 
+        val teachers = mutableListOf<Teacher>(
+                Teacher("t1", "ft1", "lt1", passwordEncoder.encode("pass1")),
+                Teacher("t2", "ft2", "lt2", passwordEncoder.encode("pass2")),
+                Teacher("t3", "ft3", "lt3", passwordEncoder.encode("pass3"))
+        )
 
-        users.values.forEach{
-            when(it){
-                is Student -> studentRepository.save(it)
-                is Teacher -> teacherRepository.save(it)
-                is Admin -> adminRepository.save(it)
-            }
-        }
+        val admins = mutableListOf<Admin>(
+                Admin("a1", "fa1", "la1", passwordEncoder.encode("pass7"))
+        )
 
-        val organizers = mutableListOf<Organizer>(Organizer("o1"), Organizer("o2"))
-        val categories = mutableListOf<Category>(Category("c1"), Category("c2"))
-        val rounds = mutableListOf<Round>(Round("r1"), Round("r2"), Round("r3"))
+        studentRepository.saveAll(students)
+        teacherRepository.saveAll(teachers)
+        adminRepository.saveAll(admins)
+
+        val organizers = mutableListOf<Organizer>(
+                Organizer("Organizer 1"),
+                Organizer("Organizer 2")
+        )
+        val categories = mutableListOf<Category>(
+                Category("Olympiad"),
+                Category("Officially accepted"),
+                Category("Other")
+        )
+        val rounds = mutableListOf<Round>(
+                Round("Qualification"),
+                Round("Local"),
+                Round("Regional"),
+                Round("National"),
+                Round("International")
+        )
 
         organizerRepository.saveAll(organizers)
         categoryRepository.saveAll(categories)
@@ -85,9 +105,9 @@ class AppSeed(
         )
 
         val events = mutableListOf<ActivityEvent>(
-                ActivityEvent(rounds[0], LocalDateTime.now(), "loc1", activities[0]),
-                ActivityEvent(rounds[1], LocalDateTime.now(), "loc2", activities[0]),
-                ActivityEvent(rounds[0], LocalDateTime.now(), "loc3", activities[1])
+                ActivityEvent(rounds[0], LocalDateTime.now(), "Location 1", activities[0]),
+                ActivityEvent(rounds[1], LocalDateTime.now(), "Location 2", activities[0]),
+                ActivityEvent(rounds[0], LocalDateTime.now(), "Location 3", activities[1])
         )
 
 
@@ -100,12 +120,22 @@ class AppSeed(
         activityEventRepository.saveAll(events)
 
         val results = listOf<ParticipationResult>(
+                ParticipationResult("Participation"),
                 ParticipationResult("1st place"),
                 ParticipationResult("2nd place"),
                 ParticipationResult("3rd place")
         )
 
         participationResultRepository.saveAll(results)
+
+        val participations = listOf<Participation>(
+                Participation(events[0], students[0], teachers[0], results[0]),
+                Participation(events[0], students[1], teachers[0], results[1]),
+                Participation(events[1], students[1], teachers[1], results[3]),
+                Participation(events[2], students[2], teachers[1], results[2])
+        )
+
+        participationRepository.saveAll(participations)
     }
 
     private fun clear(){

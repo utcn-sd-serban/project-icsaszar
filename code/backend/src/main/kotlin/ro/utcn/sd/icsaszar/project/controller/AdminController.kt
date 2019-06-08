@@ -5,12 +5,10 @@ import org.springframework.web.bind.annotation.*
 import ro.utcn.sd.icsaszar.project.dto.activity.ActivityEventDTO
 import ro.utcn.sd.icsaszar.project.dto.user.StudentDTO
 import ro.utcn.sd.icsaszar.project.model.activity.Activity
-import ro.utcn.sd.icsaszar.project.model.activity.ActivityEvent
 import ro.utcn.sd.icsaszar.project.model.user.Student
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
 import ro.utcn.sd.icsaszar.project.model.user.Teacher
 import ro.utcn.sd.icsaszar.project.service.AdminService
-import ro.utcn.sd.icsaszar.project.service.StudentService
 
 @RestController
 @RequestMapping("/admin")
@@ -27,7 +25,7 @@ class AdminController(
 
         val students =
                 if (group != null)
-                    adminService.getStudentsByGroup(group)
+                    adminService.findStudentsByGroup(group)
                 else
                     adminService.findAllStudents()
         return students.map { it.toDTO() }

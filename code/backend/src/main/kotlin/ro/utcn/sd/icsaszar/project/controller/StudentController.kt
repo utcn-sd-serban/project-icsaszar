@@ -1,8 +1,8 @@
 package ro.utcn.sd.icsaszar.project.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import ro.utcn.sd.icsaszar.project.dto.participation.NewParticipationDTO
+import ro.utcn.sd.icsaszar.project.dto.participation.ParticipationDTO
 import ro.utcn.sd.icsaszar.project.model.user.StudentGroup
 import ro.utcn.sd.icsaszar.project.service.StudentService
 
@@ -15,5 +15,11 @@ class StudentController (
     @GetMapping("/groups")
     fun getStudentGroups(): List<StudentGroup>{
         return studentService.findAllStudentGroups()
+    }
+
+    @PostMapping("/participations")
+    fun addParticipation(@RequestBody newParticipationDTO: NewParticipationDTO): ParticipationDTO{
+        val (event, preparingTeacher, result) = newParticipationDTO
+        return studentService.addParticipation(event.id, preparingTeacher.id, result).toDTO()
     }
 }
