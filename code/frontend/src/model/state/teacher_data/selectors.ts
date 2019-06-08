@@ -1,4 +1,3 @@
-import {StudentGroup} from "../../objects/user/Student";
 import {AppState} from "../store";
 import {Teacher} from "../../objects/user/Teacher";
 

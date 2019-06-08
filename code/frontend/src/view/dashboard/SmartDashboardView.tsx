@@ -9,6 +9,7 @@ import SmartAddUserView from "../admin/add_user/SmartAddUserView";
 import SmartIntroduceActivityView from "../student/introduce_activity/SmartAddParticipationView";
 import SmartAddNewActivityView from "../admin/add_activity/SmartAddNewActivityView";
 import SmartAddEventView from "../admin/add_event/SmartAddEventView";
+import SmartReviewResultsView from "../teacher/review_results/SmartReviewResultsView";
 
 interface Props extends RouteComponentProps {
     username: string,
@@ -52,16 +53,21 @@ const SmartDashboardView: React.FC<Props> = ({
             );
         case "TEACHER":
             return (
-                <DashboardView username={username} firstName={firstName} lastName={lastName} role={role}>
-                    <ul>
-                        <li>
-                            Approve result
-                        </li>
-                        <li>
-                            View report
-                        </li>
-                    </ul>
-                </DashboardView>
+                <div>
+                    <DashboardView username={username} firstName={firstName} lastName={lastName} role={role}>
+                        <ul>
+                            <li>
+                                <Link to={`${match.url}/review-results`}> Review results </Link>
+                            </li>
+                            <li>
+                                View report
+                            </li>
+                        </ul>
+                    </DashboardView>
+                    <Switch>
+                        <Route exact={true} path={`${match.path}/review-results`} component={SmartReviewResultsView}/>
+                    </Switch>
+                </div>
             );
         case "ADMIN":
             return (

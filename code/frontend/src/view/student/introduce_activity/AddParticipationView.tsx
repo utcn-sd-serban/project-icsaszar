@@ -67,7 +67,7 @@ export const AddParticipationView: React.FC<Props> =
                     {
                         events.map((event) =>
                             <option value={event.id}>
-                                {`${event.round.name}-${event.date.toDateString()}-${event.location}`}
+                                {`${event.location}, ${event.date.toDateString()} - ${event.round.name} round`}
                             </option>
                         )
                     }

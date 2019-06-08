@@ -1,9 +1,12 @@
-import RestClient from "../../../rest/RestClient";
+import LoginRestClient from "../../../rest/LoginRestClient";
 import {doSetFailedLogin} from "../login/actions";
 import {User, UserRole} from "../../objects/user/User";
 import {LOGOUT_CURRENT_USER, LogoutCurrentUserAction, SET_CURRENT_USER, SetCurrentUserAction} from "./types";
 import {ThunkResult} from "../store";
 import {fetchActivityData} from "../activity_data/actions";
+import {fetchTeacherData} from "../teacher_data/actions";
+import BaseRestClient from "../../../rest/BaseRestClient";
+import {fetchParticipationData} from "../participation_data/actions";
 
 export function doSetCurrentUser(id: number,
                                  username: string,
@@ -32,7 +35,7 @@ export function doLogoutCurrentUser(): LogoutCurrentUserAction{
 
 export function logoutUser(): ThunkResult<Promise<void>> {
     return async function (dispatch) {
-        let response = await RestClient.logout();
+        let response = await LoginRestClient.logout();
         if ((response.status === "error") || (response.status === "failed")) {
             console.log("Error logging out");
             return;
@@ -44,18 +47,29 @@ export function logoutUser(): ThunkResult<Promise<void>> {
 
 export function loginUser(username: string, password: string): ThunkResult<Promise<void>> {
     return async function (dispatch) {
-        RestClient.initialize(username, password);
-        let response = await RestClient.login();
+        LoginRestClient.initialize(username, password);
+        BaseRestClient.initialize(username, password);
+        let response = await LoginRestClient.login();
         if ((response.status === "error") || (response.status === "failed")) {
             dispatch(doSetFailedLogin());
             return;
         } else {
-            response = await RestClient.fetchDetails();
+            response = await LoginRestClient.fetchDetails();
             if(response.status === "succeeded"){
                 let data: User = await response.data.json();
                 let {id, username, firstName, lastName, role} = data;
                 dispatch(doSetCurrentUser(id, username, firstName, lastName, role));
-                await dispatch(fetchActivityData())
+                await dispatch(fetchActivityData());
+                switch (role) {
+                    case "STUDENT":
+                        await dispatch(fetchTeacherData());
+                        break;
+                    case "TEACHER":
+                        await dispatch(fetchParticipationData());
+                        break;
+                    case "ADMIN":
+                        break;
+                }
             }
         }
     }

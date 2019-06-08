@@ -9,7 +9,7 @@ import {AppState} from "../../../model/state/store";
 import {findActivityById, findActivityEventById, findResultById} from "../../../model/state/activity_data/selectors";
 import {Activity} from "../../../model/objects/activity/Activity";
 import {addParticipationPresenter} from "../../../presenter/student/add_participation/AddParticipationPresenter";
-import {findTeacherById} from "../../../model/state/teachers/selectors";
+import {findTeacherById} from "../../../model/state/teacher_data/selectors";
 import {AddParticipationSelectedField} from "../../../model/state/add_participation/types";
 
 interface Props {

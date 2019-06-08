@@ -24,4 +24,4 @@ export interface SetSelectedAddParticipationFieldAction extends Action {
     }
 }
 
-export type AddparticipationActions = SetSelectedAddParticipationFieldAction;
+export type AddParticipationActions = SetSelectedAddParticipationFieldAction;

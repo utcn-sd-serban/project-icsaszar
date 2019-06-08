@@ -1,8 +1,9 @@
 import {
-    AddStudentStateField,
     AddUserStateField,
-    CHANGE_ADD_USER_FIELD, CHANGE_SELECTED_GROUP_ID,
-    ChangeAddUserFieldAction, ChangeSelectedGroupId,
+    CHANGE_ADD_USER_FIELD,
+    CHANGE_SELECTED_GROUP_ID,
+    ChangeAddUserFieldAction,
+    ChangeSelectedGroupId,
     ExtraUserInfo,
     SET_NEW_USER_ROLE,
     SetNewUserRole,
@@ -10,10 +11,10 @@ import {
 } from "./types";
 import {UserRole} from "../../objects/user/User";
 import {ThunkResult} from "../store";
-import RestClient from "../../../rest/RestClient";
 import {Student} from "../../objects/user/Student";
 import {Admin} from "../../objects/user/Admin";
 import {Teacher} from "../../objects/user/Teacher";
+import AdminRestClient from "../../../rest/AdminRestClient";
 
 export function doSetAddUserField(field: AddUserStateField, value: string): ChangeAddUserFieldAction {
     return {
@@ -55,16 +56,16 @@ export function addUser(
         switch (role) {
             case "ADMIN":
                 let admin = new Admin(username, firstName, lastName);
-                await RestClient.sendAdmin(admin, password);
+                await AdminRestClient.sendAdmin(admin, password);
                 break;
             case "STUDENT":
                 let studentExtraInfo = extraInfo as StudentExtraInfo;
                 let student = new Student(username, firstName, lastName, studentExtraInfo.group);
-                await RestClient.sendStudent(student, password);
+                await AdminRestClient.sendStudent(student, password);
                 break;
             case "TEACHER":
                 let teacher = new Teacher(username, firstName, lastName);
-                await RestClient.sendTeacher(teacher, password);
+                await AdminRestClient.sendTeacher(teacher, password);
                 break;
         }
     }

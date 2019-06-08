@@ -4,14 +4,20 @@ import {Action} from "redux";
 import {ActivityEvent} from "../../../model/objects/activity/ActivityEvent";
 import {Teacher} from "../../../model/objects/user/Teacher";
 import {ParticipationResult} from "../../../model/objects/activity/Participation";
-import {doSetSelectedAddParticipation} from "../../../model/state/add_participation/actions";
+import {
+    doSetSelectedAddParticipationField,
+    sendNewParticipation,
+    setFirstSelectedActivityEvent
+} from "../../../model/state/add_participation/actions";
 import {AddParticipationSelectedField} from "../../../model/state/add_participation/types";
 
 export const addParticipationPresenter = (dispatch: ThunkDispatch<AppState, undefined, Action>) => ({
     handleChangeSelectedField: (field: AddParticipationSelectedField, value: number) => {
-        dispatch(doSetSelectedAddParticipation(field, value))
+        dispatch(doSetSelectedAddParticipationField(field, value));
+        dispatch(setFirstSelectedActivityEvent());
+
     },
     handleSubmit: (event: ActivityEvent, preparingTeacher: Teacher, result: ParticipationResult) => {
-
+        dispatch(sendNewParticipation(event, preparingTeacher, result))
     }
 });

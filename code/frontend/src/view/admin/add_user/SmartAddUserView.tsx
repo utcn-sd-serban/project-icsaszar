@@ -2,13 +2,13 @@ import * as React from "react";
 import {AddUserView} from "./AddUserView";
 import {connect} from "react-redux";
 import {AppState} from "../../../model/state/store";
-import {User, UserRole} from "../../../model/objects/user/User";
+import {UserRole} from "../../../model/objects/user/User";
 import {AddUserStateField, ExtraUserInfo, StudentExtraInfo} from "../../../model/state/add_user/types";
 import {Dispatch} from "redux";
 import {addUserPresenter} from "../../../presenter/admin/add_user/AddUserPresenter";
 import {StudentGroup} from "../../../model/objects/user/Student";
 import {Omit} from "../../../App";
-import {findStudentGroupById} from "../../../model/state/student_group/selectors";
+import {findStudentGroupById} from "../../../model/state/student_group_data/selectors";
 
 interface Props {
     username: string;

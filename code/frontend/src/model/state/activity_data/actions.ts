@@ -6,7 +6,7 @@ import {
     RequestActivityDataAction
 } from "./types";
 import {ThunkResult} from "../store";
-import RestClient from "../../../rest/RestClient";
+import DataRestClient from "../../../rest/DataRestClient";
 
 export function doReceiveActivityData(data: ActivityData): ReceiveActivityDataAction {
     return {
@@ -24,7 +24,7 @@ export function doRequestActivityData(): RequestActivityDataAction {
 export function fetchActivityData(): ThunkResult<Promise<void>> {
     return async function (dispatch) {
         dispatch(doRequestActivityData);
-        let response = await RestClient.fetchActivityData();
+        let response = await DataRestClient.fetchActivityData();
         if(response.status === "error" || response.status === "failed")
             throw Error("Could not fetch activity data");
         let data: ActivityData = await response.data.json();

@@ -40,7 +40,7 @@ export interface ChangeAddUserFieldAction extends Action{
 
 export type AddStudentStateField = keyof Pick<AddUserState, "selectedGroupId">;
 
-export interface ChangeSelectedGroupId {
+export interface ChangeSelectedGroupId extends Action{
     type: typeof CHANGE_SELECTED_GROUP_ID
     payload: {
         value: number

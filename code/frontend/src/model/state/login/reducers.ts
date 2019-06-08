@@ -1,8 +1,8 @@
 import {CHANGE_LOGIN_FIELD, CLEAR_LOGIN_FIELDS, LoginActions, LoginState, SET_FAILED_LOGIN} from "./types";
 
 const initialState: LoginState = {
-    usernameState: "s1",
-    passwordState: "pass4",
+    usernameState: "t1",
+    passwordState: "pass1",
     failed: false   ,
     errorMsg: ""
 };

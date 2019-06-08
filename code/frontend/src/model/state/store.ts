@@ -3,12 +3,14 @@ import thunkMiddleware, {ThunkAction, ThunkMiddleware} from "redux-thunk";
 import {loginReducer} from "./login/reducers";
 import {userReducer} from "./user/reducers";
 import {addUserReducer} from "./add_user/reducers";
-import {studentGroupReducer} from "./student_group/reducers";
+import {studentGroupReducer} from "./student_group_data/reducers";
 import {activityDataReducer} from "./activity_data/reducers";
 import {addActivityReducer} from "./add_activity/reducers";
 import {addEventReducer} from "./add_event/reducers";
 import {addParticipationReducer} from "./add_participation/reducers";
-import {teacherReducer} from "./teachers/reducers";
+import {teacherReducer} from "./teacher_data/reducers";
+import {participationDataReducer} from "./participation_data/reducers";
+import {reviewResultsReducer} from "./review_results/reducers";
 
 
 const rootReducer = combineReducers({
@@ -20,7 +22,9 @@ const rootReducer = combineReducers({
     addActivityState: addActivityReducer,
     addEventState: addEventReducer,
     addParticipationState: addParticipationReducer,
-    teacherState: teacherReducer
+    teacherState: teacherReducer,
+    participationDataState: participationDataReducer,
+    reviewResultsState: reviewResultsReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

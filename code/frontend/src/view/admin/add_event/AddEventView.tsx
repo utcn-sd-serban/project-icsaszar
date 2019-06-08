@@ -1,5 +1,4 @@
 import * as React from "react";
-import {USER_ROLES} from "../../../model/objects/user/User";
 import {Activity} from "../../../model/objects/activity/Activity";
 import {Round} from "../../../model/objects/activity/ActivityEvent";
 import {AddEventSelectedField} from "../../../model/state/add_event/types";

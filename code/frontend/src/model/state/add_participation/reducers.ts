@@ -1,4 +1,4 @@
-import {AddparticipationActions, AddParticipationState, SET_SELECTED_ADD_PARTICIPATION_FIELD} from "./types";
+import {AddParticipationActions, AddParticipationState, SET_SELECTED_ADD_PARTICIPATION_FIELD} from "./types";
 
 const initialState: AddParticipationState = {
     selectedEventId: 1,
@@ -7,7 +7,7 @@ const initialState: AddParticipationState = {
     selectedActivityId: 1,
 };
 
-export function addParticipationReducer(state: AddParticipationState = initialState, action: AddparticipationActions): AddParticipationState{
+export function addParticipationReducer(state: AddParticipationState = initialState, action: AddParticipationActions): AddParticipationState{
     switch (action.type) {
         case SET_SELECTED_ADD_PARTICIPATION_FIELD:
             return {
